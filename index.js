@@ -6,18 +6,20 @@ import cookieParser from 'cookie-parser'
 import mongoose from 'mongoose'
 import routes from './Routes'
 import seedDB from './Models/seed'
+import dotenv from 'dotenv'
+import { bgGreen, yellow, bold, blue } from 'chalk'
 
+dotenv.config()
+const PORT = process.env.PORT || 3000
 const app = express()
 app.set('views', path.resolve(__dirname, './views'))
 app.set('view engine', 'ejs')
 
-mongoose.connect('mongodb://localhost/amin_foroutan', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb://localhost/amin_foroutan', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
 const db = mongoose.connection
-// eslint-disable-next-line no-console
 db.on('error', console.error.bind(console, 'connection error:'))
 db.once('open', () => {
-  // eslint-disable-next-line no-console
-  console.log('connected to the mongoose server')
+  console.log(blue('connected to the mongoose server'))
   seedDB()
 })
 
@@ -39,4 +41,6 @@ app.use((req, res) => {
   })
 })
 
-app.listen('3000')
+app.listen(PORT, () => {
+  console.log(`${yellow('The app is running on port:')} ${bold(bgGreen(PORT))}`)
+})
