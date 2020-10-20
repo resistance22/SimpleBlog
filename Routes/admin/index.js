@@ -1,11 +1,11 @@
-import express from 'express';
+import express from 'express'
 
-const router = express.Router();
+const router = express.Router()
 
 export default () => {
   router.get('/', (req, res) => {
-    res.render('admin/login', { title: 'admin-login' });
-  });
+    res.render('admin/login', { title: 'admin-login' })
+  })
 
-  return router;
-};
+  return router
+}
