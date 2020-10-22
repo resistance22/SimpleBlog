@@ -35,8 +35,8 @@ const seedUserDB = async () => {
   const resluts = await UserModel.findOne()
   if (!resluts) {
     const user = new UserModel({
-      username: 'resistance2200',
-      password: 'Batman2200Amin'
+      username: process.env.USER,
+      password: process.env.PASS
     })
     user.save()
   }
