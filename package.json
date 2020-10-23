@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server-dev": "DEV_ENV=true nodemon --exec babel-node --ext '.js,.jsx' index.js"
+    "server-dev": "DEV_ENV=true nodemon --exec babel-node --ext '.js,.jsx' index.js",
+    "client-start": "./node_modules/.bin/webpack --watch --mode development",
+    "start": "npm run server-dev && npm run client-start"
   },
   "author": "Amin Foroutan",
   "license": "ISC",
@@ -19,6 +21,7 @@
     "express": "^4.17.1",
     "mongoose": "^5.10.9",
     "morgan": "^1.10.0",
+    "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
   },
@@ -27,6 +30,8 @@
     "@babel/core": "^7.11.6",
     "@babel/node": "^7.10.5",
     "@babel/preset-env": "^7.11.5",
+    "@babel/preset-react": "^7.12.1",
+    "babel-loader": "^8.1.0",
     "eslint": "^7.11.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-config-standard": "^14.1.1",
