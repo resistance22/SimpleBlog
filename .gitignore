@@ -15,13 +15,15 @@ Desktop.ini
 
 # npm
 node_modules
-package-lock.json
 *.log
 *.gz
-
+.env
 
 # Coveralls
 coverage
 
 # Benchmarking
 benchmarks/graphs
+
+#editor
+.vscode
