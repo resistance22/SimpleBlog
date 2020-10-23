@@ -7,7 +7,7 @@ import mongoose from 'mongoose'
 import routes from './Routes'
 import seedDB from './Models/seed'
 import dotenv from 'dotenv'
-import { bgGreen, yellow, bold, blue } from 'chalk'
+import { red, green, yellow, bold, blue } from 'chalk'
 
 dotenv.config()
 const PORT = process.env.PORT || 3000
@@ -15,9 +15,12 @@ const app = express()
 app.set('views', path.resolve(__dirname, './views'))
 app.set('view engine', 'ejs')
 
-mongoose.connect('mongodb://localhost/amin_foroutan', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
+mongoose.connect('mongodb://172.17.0.2/amin_foroutan', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
 const db = mongoose.connection
-db.on('error', console.error.bind(console, 'connection error:'))
+db.on('error', () => {
+  console.log(red('connection error'))
+})
+
 db.once('open', () => {
   console.log(blue('connected to the mongoose server'))
   seedDB()
@@ -42,5 +45,5 @@ app.use((req, res) => {
 })
 
 app.listen(PORT, () => {
-  console.log(`${yellow('The app is running on port:')} ${bold(bgGreen(PORT))}`)
+  console.log(`${yellow(`The app is running in ${bold(blue(app.get('env')))} on port`)} ${bold(green(PORT))}`)
 })
