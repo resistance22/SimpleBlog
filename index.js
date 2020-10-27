@@ -5,7 +5,7 @@ import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import mongoose from 'mongoose'
 import routes from './Routes'
-import seedDB from './Models/seed'
+import { seedUserDB } from './Models/User'
 import dotenv from 'dotenv'
 import { red, green, yellow, bold, blue } from 'chalk'
 
@@ -23,20 +23,16 @@ db.on('error', () => {
 
 db.once('open', () => {
   console.log(blue('connected to the mongoose server'))
-  seedDB()
+  seedUserDB()
 })
 
 app.use(morgan('dev'))
 app.use(express.static(path.relative(__dirname, './public')))
 app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 app.use(cookieParser('very random key'))
 
 app.use('/', routes())
-
-app.get('/complex/:who', (req, res) => {
-  const result = req.params.who || 'no name specified'
-  res.send(result)
-})
 
 app.use((req, res) => {
   res.status(404).render('404', {
