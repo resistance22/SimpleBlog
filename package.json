@@ -5,13 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server-dev": "DEV_ENV=true nodemon --exec babel-node --ext '.js,.jsx' index.js",
-    "client-start": "./node_modules/.bin/webpack --watch --mode development",
-    "start": "npm run server-dev && npm run client-start"
+    "server-dev": "docker restart my-mongo && DEV_ENV=true nodemon --ignore ./client --exec babel-node --ext '.js,.jsx' index.js",
+    "client-start": "./node_modules/.bin/webpack --watch --mode development"
   },
   "author": "Amin Foroutan",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.21.0",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "chalk": "^4.1.0",
@@ -19,16 +19,22 @@
     "dotenv": "^8.2.0",
     "ejs": "^3.1.5",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.9",
     "morgan": "^1.10.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
-    "react-dom": "^17.0.1"
+    "react-dom": "^17.0.1",
+    "react-redux": "^7.2.1",
+    "react-router-dom": "^5.2.0",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.1",
     "@babel/core": "^7.11.6",
     "@babel/node": "^7.10.5",
+    "@babel/plugin-proposal-class-properties": "^7.12.1",
     "@babel/preset-env": "^7.11.5",
     "@babel/preset-react": "^7.12.1",
     "babel-loader": "^8.1.0",
@@ -43,6 +49,7 @@
     "eslint-plugin-react-hooks": "^4.1.2",
     "eslint-plugin-standard": "^4.0.1",
     "nodemon": "^2.0.4",
+    "redux-devtools-extension": "^2.13.8",
     "webpack": "^5.2.0",
     "webpack-cli": "^4.1.0"
   }
