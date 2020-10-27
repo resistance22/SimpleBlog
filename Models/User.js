@@ -29,9 +29,9 @@ async function comparePass (candidate) {
 
 userSchema.methods.comparePass = comparePass
 
-const UserModel = model('User', userSchema)
+export const UserModel = model('User', userSchema)
 
-const seedUserDB = async () => {
+export const seedUserDB = async () => {
   const resluts = await UserModel.findOne()
   if (!resluts) {
     const user = new UserModel({
@@ -42,5 +42,3 @@ const seedUserDB = async () => {
   }
   return resluts
 }
-
-export default seedUserDB
