@@ -36,7 +36,8 @@ app.use('/', routes())
 
 app.use((req, res) => {
   res.status(404).render('404', {
-    title: '404 not found!'
+    title: '404 not found!',
+    bundle: 'home'
   })
 })
 
