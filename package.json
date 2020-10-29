@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "server-dev": "docker restart my-mongo && DEV_ENV=true nodemon --ignore ./client --exec babel-node --ext '.js,.jsx' index.js",
-    "client-start": "./node_modules/.bin/webpack --watch --mode development"
+    "client-start": "./node_modules/.bin/webpack --mode development"
   },
   "author": "Amin Foroutan",
   "license": "ISC",

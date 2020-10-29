@@ -9,6 +9,10 @@ module.exports = {
     path: path.join(__dirname, 'public', 'js'),
     filename: '[name].bundle.js'
   },
+  watch: true,
+  watchOptions: {
+    ignored: ['node_modules/**']
+  },
   module: {
     rules: [
       {
