@@ -8,7 +8,7 @@ export default () => {
     res.render('index', { title: 'homepage', bundle: 'home' })
   })
 
-  router.use('/profile', profile())
+  router.use('/profile*', profile())
   router.use('/login', auth())
 
   return router
