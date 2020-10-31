@@ -1,6 +1,8 @@
 import express from 'express'
 import auth from './api/auth'
 import profile from './profile'
+import posts from './api/posts'
+
 const router = express.Router()
 
 export default () => {
@@ -10,6 +12,6 @@ export default () => {
 
   router.use('/profile*', profile())
   router.use('/login', auth())
-
+  router.use('/posts', posts())
   return router
 }
