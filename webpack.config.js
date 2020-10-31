@@ -2,7 +2,7 @@ const path = require('path')
 
 module.exports = {
   entry: {
-    home: path.resolve(__dirname, 'client', 'index.js'),
+    home: path.resolve(__dirname, 'client', 'front', 'index.js'),
     admin: path.resolve(__dirname, 'client', 'admin', 'index.js')
   },
   output: {
