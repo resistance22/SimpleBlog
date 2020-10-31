@@ -8,6 +8,7 @@ import { loginReqSuccess } from '../redux/auth/actions'
 import LoginPage from './login'
 import Profile from './profile'
 import AllPosts from './posts'
+import NewPost from './posts/new'
 import Nav from './nav'
 import PrivateRoute from './PrivateRoute'
 
@@ -27,15 +28,21 @@ class App extends Component {
         <Router>
           {loggedIn ? <Nav /> : <div></div>}
           <Switch>
-            <Route exact path="/login">
-              <LoginPage />
-            </Route>
-            <PrivateRoute exact path="/profile">
-              <Profile />
+            <PrivateRoute exact path="/profile/posts/new">
+              <NewPost />
+            </PrivateRoute>
+            <PrivateRoute exact path="/profile/posts/:post_title">
+              <AllPosts />
             </PrivateRoute>
             <PrivateRoute exact path="/profile/posts">
               <AllPosts />
             </PrivateRoute>
+            <PrivateRoute exact path="/profile">
+              <Profile />
+            </PrivateRoute>
+            <Route exact path="/login">
+              <LoginPage />
+            </Route>
           </Switch>
         </Router>
       </div>
