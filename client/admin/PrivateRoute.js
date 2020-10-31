@@ -2,25 +2,17 @@
 import React from 'react'
 import { Route, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-function PrivateRoute ({ children, ...rest }) {
-  const { loggedIn } = rest
-  return (
-    <Route
-      {...rest}
-      render={({ location }) =>
-        loggedIn ? (
-          children
-        ) : (
-          <Redirect
-            to={{
-              pathname: '/login',
-              state: { from: location }
-            }}
-          />
-        )
-      }
-    />
-  )
+function PrivateRoute ({ component: Component, loggedIn, ...rest }) {
+  return (<Route
+    {...rest}
+    render={props =>
+      loggedIn ? (
+        <Component {...props} />
+      ) : (
+        <Redirect to="/login" />
+      )
+    }
+  />)
 }
 
 const mapStateToProps = (state) => {
