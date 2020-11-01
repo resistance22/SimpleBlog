@@ -11,6 +11,7 @@ import AllPosts from './posts'
 import NewPost from './posts/new'
 import Nav from './nav'
 import PrivateRoute from './PrivateRoute'
+import './admin.scss'
 
 class App extends Component {
   render () {
