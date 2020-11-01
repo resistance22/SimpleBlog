@@ -3,16 +3,15 @@ import React from 'react'
 import { Route, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 function PrivateRoute ({ component: Component, loggedIn, ...rest }) {
-  return (<Route
-    {...rest}
-    render={props =>
-      loggedIn ? (
-        <Component {...props} />
-      ) : (
-        <Redirect to="/login" />
-      )
-    }
-  />)
+  if (loggedIn) {
+    return (<Route
+      {...rest}
+      render={props => (<Component {...props} />)
+      }
+    />)
+  } else {
+    return (<Redirect to='/login' />)
+  }
 }
 
 const mapStateToProps = (state) => {
