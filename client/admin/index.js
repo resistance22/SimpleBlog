@@ -13,16 +13,14 @@ import Nav from './nav'
 import PrivateRoute from './PrivateRoute'
 
 class App extends Component {
-  componentDidMount () {
+  render () {
     // eslint-disable-next-line no-undef
     if (localStorage.getItem('token')) {
       // eslint-disable-next-line no-undef
       this.props.loginSuccess({ username: jwtDecode(localStorage.getItem('token')).username })
     }
-  }
-
-  render () {
     const { loggedIn } = this.props
+
     return (
       <div>
         <Router>
