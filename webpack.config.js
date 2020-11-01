@@ -9,10 +9,6 @@ module.exports = {
     path: path.join(__dirname, 'public', 'js'),
     filename: '[name].bundle.js'
   },
-  watch: true,
-  watchOptions: {
-    ignored: ['node_modules/**']
-  },
   module: {
     rules: [
       {
@@ -21,6 +17,10 @@ module.exports = {
         use: {
           loader: 'babel-loader'
         }
+      },
+      {
+        test: /\.(css|scss)$/i,
+        use: ['style-loader', 'css-loader', 'sass-loader']
       }
     ]
   }
