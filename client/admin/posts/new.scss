@@ -1,0 +1,48 @@
+.post-title{
+    width: 100%;
+    input{
+        font-size: 2em;
+    }
+    label{
+        font-size: 1.5em;
+    }
+}
+form#new-post{
+    margin-top: 25px;
+}
+#post-body{
+    &:focus{
+        outline: none;
+    }
+    width: 100%;
+    min-height: 500px;
+    border: none;
+}
+.post-body-container{
+    margin-top: 50px;
+}
+.new-post-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    .main-section{
+        flex:1 1 75%;
+        .main-inner{
+            padding-right: 25px;
+        }
+    }
+}
+
+.new-post-container .sidebar {
+    flex: 1 1 25%;
+    background: #343434;
+    padding-top: 25px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    .sidebar-inner{
+        padding-left: 20px;
+    }
+    label{
+        color: white;
+    }
+}

@@ -1,0 +1,16 @@
+*{
+    font-family: 'roboto';
+}
+pre{
+    code{
+        background-color: lightgray;
+        padding: 10px 15px;
+        display: inline-block;
+        font-family: monospace;
+        border-radius: 3px;
+    }
+}
+textarea{
+    resize: none;
+    overflow-y: auto;
+}
