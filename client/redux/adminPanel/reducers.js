@@ -1,7 +1,8 @@
-import { OPEN_DRAWER, CLOSE_DRAWER } from './actions'
+import { OPEN_DRAWER, CLOSE_DRAWER, START_LOADING, FINISH_LOADING } from './actions'
 
 const initialState = {
-  drawerOpen: false
+  drawerOpen: false,
+  loading: false
 }
 export const adminPanelReducers = (state = initialState, action) => {
   switch (action.type) {
@@ -14,6 +15,16 @@ export const adminPanelReducers = (state = initialState, action) => {
       return {
         ...state,
         drawerOpen: false
+      }
+    case START_LOADING:
+      return {
+        ...state,
+        loading: true
+      }
+    case FINISH_LOADING:
+      return {
+        ...state,
+        loading: false
       }
     default:
       return state
