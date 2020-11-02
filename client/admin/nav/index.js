@@ -9,9 +9,15 @@ import Toolbar from '@material-ui/core/Toolbar'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import Divider from '@material-ui/core/Divider'
-
+import CircularProgress from '@material-ui/core/CircularProgress'
 import { logout } from '../../redux/auth/actions'
-import { openDrawer, closeDrawer } from '../../redux/adminPanel/actions'
+import {
+  openDrawer,
+  closeDrawer,
+  startLoading,
+  finishLoading
+} from '../../redux/adminPanel/actions'
+
 class Nav extends Component {
   constructor () {
     super()
@@ -37,6 +43,7 @@ class Nav extends Component {
   }
 
   render () {
+    const { loading } = this.props
     return (
       <nav className="navigation">
 
@@ -46,6 +53,7 @@ class Nav extends Component {
               <MenuIcon />
             </IconButton>
             <p>{this.props.username}</p>
+            {loading && (<CircularProgress color="secondary" />)}
           </Toolbar>
         </AppBar>
         <Drawer
@@ -79,6 +87,7 @@ class Nav extends Component {
 const mapStateToProps = (state) => {
   return {
     drawerOpen: state.adminPanel.drawerOpen,
+    loading: state.adminPanel.loading,
     username: state.auth.user.username
   }
 }
@@ -87,8 +96,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     logout: () => dispatch(logout()),
     openDrawer: () => dispatch(openDrawer()),
-    closeDrawer: () => dispatch(closeDrawer())
-
+    closeDrawer: () => dispatch(closeDrawer()),
+    startLoading: () => dispatch(startLoading()),
+    finishLoading: () => dispatch(finishLoading())
   }
 }
 
