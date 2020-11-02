@@ -4,6 +4,8 @@ import axios from 'axios'
 import './new.scss'
 import Switch from '@material-ui/core/Switch'
 import ReactMarkdown from '../../inc/ReactMarkdown'
+import Chip from '@material-ui/core/Chip'
+import Button from '@material-ui/core/Button'
 
 class NewPost extends Component {
   constructor () {
@@ -14,13 +16,18 @@ class NewPost extends Component {
       checkingTitle: false,
       body: 'Write Here...',
       showingReview: false,
-      reviewMode: false
+      reviewMode: false,
+      tags: [],
+      tagText: ''
     }
 
     this.setTitle = this.setTitle.bind(this)
     this.validateTitle = this.validateTitle.bind(this)
     this.setBody = this.setBody.bind(this)
     this.onReviewToggle = this.onReviewToggle.bind(this)
+    this.handleChipDeletion = this.handleChipDeletion.bind(this)
+    this.tagTextChange = this.tagTextChange.bind(this)
+    this.insertTags = this.insertTags.bind(this)
   }
 
   setTitle (e) {
@@ -73,6 +80,35 @@ class NewPost extends Component {
     e.preventDefault()
   }
 
+  handleChipDeletion (label) {
+    return (e) => {
+      e.preventDefault()
+      this.setState({
+        ...this.state,
+        tags: this.state.tags.filter(item => item !== label)
+      })
+    }
+  }
+
+  tagTextChange (e) {
+    this.setState({
+      ...this.state,
+      tagText: e.target.value
+    })
+  }
+
+  insertTags (e) {
+    if (!this.state.tagText) { return }
+    if ((e && e.type === 'keydown' && e.key === 'Enter') || (e.type === 'click')) {
+      const tags = this.state.tagText.split(',')
+      this.setState({
+        ...this.state,
+        tagText: '',
+        tags: [...new Set([...this.state.tags, ...tags])]
+      })
+    }
+  }
+
   render () {
     return (
       <form onSubmit={this.submit} id="new-post">
@@ -119,6 +155,27 @@ class NewPost extends Component {
                   onChange={this.onReviewToggle}
                   name="checkedA"
                 />
+              </div>
+              <div className="tags">
+                <h3 className="tags-title">
+                  Tags
+                </h3>
+                <div className="tag-input">
+                  <TextField
+                    id="tag-input"
+                    label="Add Tag"
+                    helperText="Seperate Tags by comma"
+                    onChange={this.tagTextChange}
+                    value={this.state.tagText}
+                    onKeyDown={this.insertTags}
+                  />
+                  <Button onClick={this.insertTags} variant="contained" color="secondary">
+                    Add Tags
+                  </Button>
+                </div>
+                <ul className="tag-list">
+                  {this.state.tags.map((item, index) => (<li key={index} ><Chip label={item} onDelete={this.handleChipDeletion(item)} /></li>))}
+                </ul>
               </div>
             </div>
           </div>

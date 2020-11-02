@@ -1,6 +1,9 @@
 *{
     font-family: 'roboto';
 }
+body{
+    background-color: #f0f0f0;
+}
 pre{
     code{
         background-color: lightgray;
@@ -13,4 +16,8 @@ pre{
 textarea{
     resize: none;
     overflow-y: auto;
+}
+
+.MuiAppBar-colorPrimary{
+    background-color: #343434 !important;
 }

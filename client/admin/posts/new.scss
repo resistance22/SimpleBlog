@@ -17,6 +17,7 @@ form#new-post{
     width: 100%;
     min-height: 500px;
     border: none;
+    padding: 15px 0 0 15px;
 }
 .post-body-container{
     margin-top: 50px;
@@ -35,14 +36,52 @@ form#new-post{
 
 .new-post-container .sidebar {
     flex: 1 1 25%;
-    background: #343434;
-    padding-top: 25px;
-    border-top-right-radius: 15px;
-    border-bottom-right-radius: 15px;
     .sidebar-inner{
         padding-left: 20px;
+        background: #343434;
+        padding-top: 25px;
+        padding-bottom: 25px;
+        border-top-right-radius: 15px;
+        border-bottom-right-radius: 15px;
+        position: sticky;
+        top:25px;
     }
     label{
         color: white;
+    }
+}
+.tags{
+    .tags-title{
+        color: white;
+    }
+    .MuiInput-underline:before{
+        border-bottom: 1px solid #fff;
+    }
+    .MuiInput-underline:hover:not(.Mui-disabled):before {
+        border-bottom: 2px solid rgb(240 240 240);
+    }
+    .MuiInput-underline:after{
+        border-bottom: 2px solid #f50057;
+    }
+    .tag-input{
+        margin-bottom: 20px;
+    }
+    .MuiFormHelperText-root{
+        color: #fff;
+    }
+    input{
+        color: #fff;
+    }
+}
+.tag-list{
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    flex-wrap: wrap;
+    display: flex;
+    padding-right: 10px;
+    li{
+        margin-right: 5px;
+        margin-bottom: 10px;
     }
 }
