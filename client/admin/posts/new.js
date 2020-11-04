@@ -1,4 +1,7 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { startLoading, finishLoading } from '../../redux/adminPanel/actions'
+import { toast } from 'react-toastify'
 import TextField from '@material-ui/core/TextField'
 import axios from 'axios'
 import './new.scss'
@@ -11,16 +14,19 @@ class NewPost extends Component {
   constructor () {
     super()
     this.state = {
-      validTitle: true,
+      validTitle: false,
       title: '',
       checkingTitle: false,
       body: 'Write Here...',
       showingReview: false,
       reviewMode: false,
       tags: [],
-      tagText: ''
+      tagText: '',
+      submited: false,
+      submitting: false
     }
 
+    this.submit = this.submit.bind(this)
     this.setTitle = this.setTitle.bind(this)
     this.validateTitle = this.validateTitle.bind(this)
     this.setBody = this.setBody.bind(this)
@@ -78,6 +84,25 @@ class NewPost extends Component {
 
   submit (e) {
     e.preventDefault()
+    const { startLoading } = this.props
+    const { validTitle } = this.state
+    console.log(validTitle)
+    if (validTitle) {
+      startLoading()
+      this.setState({
+        ...this.state,
+        submitting: true
+      })
+    } else {
+      toast.error('Please Enter A Valid Title!', {
+        position: 'bottom-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true
+      })
+    }
   }
 
   handleChipDeletion (label) {
@@ -112,7 +137,7 @@ class NewPost extends Component {
   render () {
     return (
       <form onSubmit={this.submit} id="new-post">
-        <div className="new-post-container">
+        <div className={`new-post-container ${this.state.submitting && ('disabled')}`}>
           <div className="main-section">
             <div className="main-inner">
 
@@ -177,6 +202,11 @@ class NewPost extends Component {
                   {this.state.tags.map((item, index) => (<li key={index} ><Chip label={item} onDelete={this.handleChipDeletion(item)} /></li>))}
                 </ul>
               </div>
+              <div className="submit-button">
+                <Button onClick={this.submit} variant="contained" color="secondary">
+                  {this.state.submited ? 'Update' : 'Submit'}
+                </Button>
+              </div>
             </div>
           </div>
         </div>
@@ -186,4 +216,19 @@ class NewPost extends Component {
   }
 }
 
-export default NewPost
+const mapStateToProps = (state) => {
+  return {
+    drawerOpen: state.adminPanel.drawerOpen,
+    loading: state.adminPanel.loading,
+    username: state.auth.user.username
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    startLoading: () => dispatch(startLoading()),
+    finishLoading: () => dispatch(finishLoading())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewPost)
