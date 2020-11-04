@@ -4,6 +4,7 @@ import { Provider, connect } from 'react-redux'
 import jwtDecode from 'jwt-decode'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import { store } from '../redux/store'
+import { ToastContainer } from 'react-toastify'
 import { loginReqSuccess } from '../redux/auth/actions'
 import LoginPage from './login'
 import Profile from './profile'
@@ -12,6 +13,7 @@ import NewPost from './posts/new'
 import Nav from './nav'
 import PrivateRoute from './PrivateRoute'
 import './admin.scss'
+import './reactToastify.scss'
 
 class App extends Component {
   render () {
@@ -23,7 +25,7 @@ class App extends Component {
     const { loggedIn } = this.props
 
     return (
-      <div>
+      <div className="admin-area">
         <Router>
           {loggedIn ? <Nav /> : <div></div>}
           <Switch>
@@ -44,6 +46,17 @@ class App extends Component {
             </Route>
           </Switch>
         </Router>
+        <ToastContainer
+          position="bottom-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
       </div>
 
     )
