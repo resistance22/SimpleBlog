@@ -6,12 +6,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "server-dev": "docker restart my-mongo && DEV_ENV=true nodemon --ignore ./client --exec babel-node --ext '.js,.jsx' index.js",
-    "client-start": "./node_modules/.bin/webpack --mode development --watch",
+    "client-start": "webpack --mode development --watch",
     "build": "webpack --mode production"
   },
   "author": "Amin Foroutan",
   "license": "ISC",
   "dependencies": {
+    "@loadable/component": "^5.14.1",
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
     "axios": "^0.21.0",
