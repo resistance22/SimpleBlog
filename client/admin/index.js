@@ -1,26 +1,31 @@
+/* eslint-disable no-undef */
 import ReactDOM from 'react-dom'
 import React, { Component } from 'react'
+import loadable from '@loadable/component'
 import { Provider, connect } from 'react-redux'
 import jwtDecode from 'jwt-decode'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import { store } from '../redux/store'
 import { ToastContainer } from 'react-toastify'
 import { loginReqSuccess } from '../redux/auth/actions'
-import LoginPage from './login'
-import Profile from './profile'
-import AllPosts from './posts'
-import NewPost from './posts/new'
-import Nav from './nav'
+import { setAuthorizationHeader } from './utils'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import PrivateRoute from './PrivateRoute'
 import './admin.scss'
 import './reactToastify.scss'
 
+const NewPost = loadable(() => import('./posts/new'))
+const AllPosts = loadable(() => import('./posts'))
+const Nav = loadable(() => import('./nav'))
+const Post = loadable(() => import('./posts/post'))
+const Profile = loadable(() => import('./profile'))
+const LoginPage = loadable(() => import('./login'))
+
 class App extends Component {
   render () {
-    // eslint-disable-next-line no-undef
     if (localStorage.getItem('token')) {
-      // eslint-disable-next-line no-undef
       this.props.loginSuccess({ username: jwtDecode(localStorage.getItem('token')).username })
+      setAuthorizationHeader(localStorage.getItem('token'))
     }
     const { loggedIn } = this.props
 
@@ -30,19 +35,19 @@ class App extends Component {
           {loggedIn ? <Nav /> : <div></div>}
           <Switch>
             <PrivateRoute exact path="/profile/posts/new">
-              <NewPost />
+              <NewPost fallback={<CircularProgress color="secondary" />}/>
             </PrivateRoute>
-            <PrivateRoute exact path="/profile/posts/:post_title">
-              <AllPosts />
+            <PrivateRoute exact path="/profile/posts/:postID">
+              <Post fallback={<CircularProgress color="secondary" />} />
             </PrivateRoute>
             <PrivateRoute exact path="/profile/posts">
-              <AllPosts />
+              <AllPosts fallback={<CircularProgress color="secondary" />} />
             </PrivateRoute>
             <PrivateRoute exact path="/profile">
-              <Profile />
+              <Profile fallback={<CircularProgress color="secondary" />} />
             </PrivateRoute>
             <Route exact path="/login">
-              <LoginPage />
+              <LoginPage fallback={<CircularProgress color="secondary" />} />
             </Route>
           </Switch>
         </Router>
