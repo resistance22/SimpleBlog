@@ -9,7 +9,7 @@ import Switch from '@material-ui/core/Switch'
 import ReactMarkdown from '../../inc/ReactMarkdown'
 import Chip from '@material-ui/core/Chip'
 import Button from '@material-ui/core/Button'
-
+import { Redirect } from 'react-router-dom'
 class NewPost extends Component {
   constructor () {
     super()
@@ -84,14 +84,29 @@ class NewPost extends Component {
 
   submit (e) {
     e.preventDefault()
-    const { startLoading } = this.props
-    const { validTitle } = this.state
-    console.log(validTitle)
+    const { startLoading, username, finishLoading } = this.props
+    const { validTitle, title, body, tags } = this.state
     if (validTitle) {
       startLoading()
       this.setState({
         ...this.state,
         submitting: true
+      })
+      axios.post('/posts', {
+        title: title,
+        body: body,
+        tags: tags,
+        author: username,
+        published: true
+      }).then(res => {
+        if (res.data.success) {
+          finishLoading()
+          this.setState({
+            ...this.state,
+            submitting: false,
+            submited: true
+          })
+        }
       })
     } else {
       toast.error('Please Enter A Valid Title!', {
@@ -135,84 +150,88 @@ class NewPost extends Component {
   }
 
   render () {
-    return (
-      <form onSubmit={this.submit} id="new-post">
-        <div className={`new-post-container ${this.state.submitting && ('disabled')}`}>
-          <div className="main-section">
-            <div className="main-inner">
+    if (this.state.submited) {
+      return (<Redirect to={`/profile/posts/${encodeURI(this.state.title.replace(/ /g, '-'))}`} />)
+    } else {
+      return (
+        <form onSubmit={this.submit} id="new-post">
+          <div className={`new-post-container ${this.state.submitting && ('disabled')}`}>
+            <div className="main-section">
+              <div className="main-inner">
 
-              <div className="post-title-container">
-                <TextField
-                  error={!this.state.validTitle}
-                  className="post-title"
-                  onChange={this.setTitle}
-                  onBlur={this.validateTitle}
-                  value={this.state.title}
-                  disabled={this.state.checkingTitle}
-                  id="outlined-basic"
-                  label="Title"
-                  helperText="Title must be unique"
-                  required
-                />
-              </div>
-              {
-                this.state.reviewMode ? (
-                  <div className="content">
-                    <ReactMarkdown string={this.state.body} />
-                  </div>
-                ) : (
-                  <div className="post-body-container">
-                    <textarea value={this.state.body} onChange={this.setBody} id="post-body">
-                    </textarea>
-                  </div>
-                )
-              }
-            </div>
-          </div>
-          <div className="sidebar">
-            <div className="sidebar-inner">
-              <div className="preview-toggle">
-                <label className="switchLabel">
-                  Preview
-                </label>
-                <Switch
-                  checked={this.state.reviewMode}
-                  onChange={this.onReviewToggle}
-                  name="checkedA"
-                />
-              </div>
-              <div className="tags">
-                <h3 className="tags-title">
-                  Tags
-                </h3>
-                <div className="tag-input">
+                <div className="post-title-container">
                   <TextField
-                    id="tag-input"
-                    label="Add Tag"
-                    helperText="Seperate Tags by comma"
-                    onChange={this.tagTextChange}
-                    value={this.state.tagText}
-                    onKeyDown={this.insertTags}
+                    error={!this.state.validTitle}
+                    className="post-title"
+                    onChange={this.setTitle}
+                    onBlur={this.validateTitle}
+                    value={this.state.title}
+                    disabled={this.state.checkingTitle}
+                    id="outlined-basic"
+                    label="Title"
+                    helperText="Title must be unique"
+                    required
                   />
-                  <Button onClick={this.insertTags} variant="contained" color="secondary">
-                    Add Tags
+                </div>
+                {
+                  this.state.reviewMode ? (
+                    <div className="content">
+                      <ReactMarkdown string={this.state.body} />
+                    </div>
+                  ) : (
+                    <div className="post-body-container">
+                      <textarea value={this.state.body} onChange={this.setBody} id="post-body">
+                      </textarea>
+                    </div>
+                  )
+                }
+              </div>
+            </div>
+            <div className="sidebar">
+              <div className="sidebar-inner">
+                <div className="preview-toggle">
+                  <label className="switchLabel">
+                    Preview
+                  </label>
+                  <Switch
+                    checked={this.state.reviewMode}
+                    onChange={this.onReviewToggle}
+                    name="checkedA"
+                  />
+                </div>
+                <div className="tags">
+                  <h3 className="tags-title">
+                    Tags
+                  </h3>
+                  <div className="tag-input">
+                    <TextField
+                      id="tag-input"
+                      label="Add Tag"
+                      helperText="Seperate Tags by comma"
+                      onChange={this.tagTextChange}
+                      value={this.state.tagText}
+                      onKeyDown={this.insertTags}
+                    />
+                    <Button onClick={this.insertTags} variant="contained" color="secondary">
+                      Add Tags
+                    </Button>
+                  </div>
+                  <ul className="tag-list">
+                    {this.state.tags.map((item, index) => (<li key={index} ><Chip label={item} onDelete={this.handleChipDeletion(item)} /></li>))}
+                  </ul>
+                </div>
+                <div className="submit-button">
+                  <Button onClick={this.submit} variant="contained" color="secondary">
+                    {this.state.submited ? 'Update' : 'Submit'}
                   </Button>
                 </div>
-                <ul className="tag-list">
-                  {this.state.tags.map((item, index) => (<li key={index} ><Chip label={item} onDelete={this.handleChipDeletion(item)} /></li>))}
-                </ul>
-              </div>
-              <div className="submit-button">
-                <Button onClick={this.submit} variant="contained" color="secondary">
-                  {this.state.submited ? 'Update' : 'Submit'}
-                </Button>
               </div>
             </div>
           </div>
-        </div>
 
-      </form>
-    )
+        </form>
+      )
+    }
   }
 }
 
